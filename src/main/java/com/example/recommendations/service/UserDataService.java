@@ -16,7 +16,6 @@ public class UserDataService {
     private UserDataRepository userDataRepository;
 
 
-
     public UserDataDto getUserDataWithPreferences(String id){
 
         UserData userData = userDataRepository.findById(Long.valueOf(id)).orElse(new UserData());

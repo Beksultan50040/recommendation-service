@@ -13,7 +13,12 @@ public class UserDto {
     private Long id;
     private String firstName;
     private String lastName;
-    private String login;
+    private String email;
+
+    private String gender;
+
+
+    private Integer age;
 
     private String roles;
     private String token;

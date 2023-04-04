@@ -12,8 +12,9 @@ import com.example.recommendations.repository.UserDataRepository;
 import com.example.recommendations.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
@@ -27,26 +28,32 @@ public class UserService {
 
 
     private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final UserMapper userMapper;
 
     @Autowired
     private final UserDataRepository userDataRepository;
 
+    @Autowired
+    private EmailService emailService;
 
-//    public UserDto login(CredentialsDto credentialsDto) {
-//        UserCredentials userCredentials = userRepository.findByLogin(credentialsDto.getLogin())
-//                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
-//
-//        if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), userCredentials.getPassword())) {
-//            return userMapper.toUserDto(userCredentials);
-//        }
-//        throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
-//    }
+    @Value("${password.reset}")
+    String link;
+
+
+    public UserDto login(CredentialsDto credentialsDto) {
+        UserCredentials userCredentials = userRepository.findByEmail(credentialsDto.getEmail())
+                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+
+        if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), userCredentials.getPassword())) {
+            return userMapper.toUserDto(userCredentials);
+        }
+        throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
+    }
 
     public UserDto register(SignUpDto userDto) {
-        Optional<UserCredentials> optionalUser = userRepository.findByLogin(userDto.getLogin());
+        Optional<UserCredentials> optionalUser = userRepository.findByEmail(userDto.getEmail());
 
         if (optionalUser.isPresent()) {
             throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
@@ -54,21 +61,44 @@ public class UserService {
 
         UserCredentials userCredentials = userMapper.signUpToUser(userDto);
         userCredentials.setPassword(Arrays.toString(userDto.getPassword()));
-//        userCredentials.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
+        userCredentials.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
 
         UserCredentials savedUserCredentials = userRepository.save(userCredentials);
 
 
         userDataRepository.save(new UserData(userCredentials.getId(), userCredentials.getFirstName(), userCredentials.getLastName(),
-                userCredentials.getLogin(), new ArrayList<>()));
+                userCredentials.getEmail(), userCredentials.getGender(),
+                userCredentials.getAge(), new ArrayList<>()));
 
         return userMapper.toUserDto(savedUserCredentials);
     }
 
     public UserDto findByLogin(String login) {
-        UserCredentials userCredentials = userRepository.findByLogin(login)
+        UserCredentials userCredentials = userRepository.findByEmail(login)
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
         return userMapper.toUserDto(userCredentials);
+    }
+
+    public String resetPassword(String email){
+
+        String body = """
+            Пожалуйста используйте ссылку ниже для установки нового пароля, но сперва замените * на ваши данные
+            потом скопируйте и вставьте в поисковике браузера и нажмите enter, готово
+                    """ + "\n" + link;
+
+        emailService.sendMail(email, body);
+        return "Ok";
+    }
+
+    public String insertNewPassword(String password, String email){
+
+        UserCredentials userCredentials = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+
+        userCredentials.setPassword(passwordEncoder.encode(CharBuffer.wrap(password)));
+        userRepository.save(userCredentials);
+
+        return "Ok";
     }
 
 }

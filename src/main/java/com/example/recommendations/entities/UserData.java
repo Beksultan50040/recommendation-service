@@ -2,7 +2,9 @@ package com.example.recommendations.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -32,10 +34,17 @@ public class UserData {
     private String lastName;
 
     @NotBlank
-//    @Email
+    @Email
     @Column(nullable = false)
     @Size(max = 100)
-    private String login;
+    private String email;
+
+    @NotNull
+    private String gender;
+
+
+    @NotNull
+    private Integer age;
 
     @OneToMany(mappedBy = "user")
     @EqualsAndHashCode.Exclude @ToString.Exclude

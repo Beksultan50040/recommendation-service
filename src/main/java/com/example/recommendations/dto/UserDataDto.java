@@ -1,10 +1,5 @@
 package com.example.recommendations.dto;
 
-import com.example.recommendations.entities.UserCredentials;
-import com.example.recommendations.entities.UserMoviePreference;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.List;
@@ -15,15 +10,17 @@ import java.util.List;
 @Data
 public class UserDataDto {
 
-
-
     private Long id;
 
     private String firstName;
 
     private String lastName;
 
-    private String login;
+    private String email;
+
+    private String gender;
+
+    private Integer age;
 
     private List<UserMoviePreferenceDto> preferences;
 

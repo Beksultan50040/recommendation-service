@@ -21,10 +21,12 @@ public interface UserDataMapper {
 
 
 
-    @Mapping(target = "id", expression = "java(userData.getId())")
-    @Mapping(target = "login", expression = "java(userData.getLogin())")
-    @Mapping(target = "firstName", expression = "java(userData.getFirstName())")
-    @Mapping(target = "lastName", expression = "java(userData.getLastName())")
+//    @Mapping(target = "id", expression = "java(userData.getId())")
+//    @Mapping(target = "email", expression = "java(userData.getEmail())")
+//    @Mapping(target = "firstName", expression = "java(userData.getFirstName())")
+//    @Mapping(target = "lastName", expression = "java(userData.getLastName())")
+//    @Mapping(target = "gender", expression = "java(userData.getGender())")
+//    @Mapping(target = "age", expression = "java(userData.getAge())")
     @Mapping(target = "preferences", expression = "java(toDto(userData.getPreferences()))")
     UserDataDto toUserDataDto(UserData userData);
 

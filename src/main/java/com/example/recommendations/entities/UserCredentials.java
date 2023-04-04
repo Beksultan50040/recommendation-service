@@ -1,13 +1,10 @@
 package com.example.recommendations.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.validation.constraints.Size;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,12 +28,20 @@ public class UserCredentials {
     private String lastName;
 
     @NotBlank
-//    @Email
+    @Email
     @Column(nullable = false)
     @Size(max = 100)
-    private String login;
+    private String email;
 
-    private String roles;
+    @NotNull
+    private String gender;
+
+
+    @NotNull
+    private Integer age;
+
+    @Enumerated(EnumType.STRING)
+    private Roles roles = Roles.ROLE_USER;
 
     @NotEmpty
     @Column(nullable = false)

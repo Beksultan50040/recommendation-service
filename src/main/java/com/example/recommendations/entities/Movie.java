@@ -1,12 +1,12 @@
 package com.example.recommendations.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "movies")
@@ -27,8 +27,15 @@ public class Movie {
     @NotBlank
     private String genre;
 
-//    @Lob
-//    private byte[] image;
+    @NotNull
+    private Integer year;
+
+    private String media;
+
+    @Column(name = "rating", precision = 2, scale = 1)
+    private BigDecimal rating;
+
+
 
 //    @OneToMany(mappedBy = "movie")
 //    @JsonManagedReference
