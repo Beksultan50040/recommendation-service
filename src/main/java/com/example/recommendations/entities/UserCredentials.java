@@ -29,7 +29,7 @@ public class UserCredentials {
 
     @NotBlank
     @Email
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Size(max = 100)
     private String email;
 

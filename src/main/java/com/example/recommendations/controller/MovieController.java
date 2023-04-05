@@ -50,30 +50,35 @@ public class MovieController {
 
 
     @GetMapping("/{id}")
+    @Operation(summary = "ADMIN Endpoint", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<Movie> getMovieById(@PathVariable String id){
 
         return ResponseEntity.ok(movieService.getMovieById(id));
     }
 
     @GetMapping("/name")
+    @Operation(summary = "ADMIN Endpoint", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<Movie> getMovieByName(@RequestParam String name){
 
         return ResponseEntity.ok(movieService.getMovieByName(name));
     }
 
     @GetMapping("/genre")
+    @Operation(summary = "ADMIN Endpoint", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<List<Movie>> getMovieByGenre(@RequestParam String genre){
 
         return ResponseEntity.ok(movieService.getMovieByGenre(genre));
     }
 
     @GetMapping("/year")
+    @Operation(summary = "ADMIN Endpoint", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<List<Movie>> getMoviesSortedByYear(){
 
         return ResponseEntity.ok(recommendationService.getNewestMovies());
     }
 
     @GetMapping("/rating")
+    @Operation(summary = "ADMIN Endpoint", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<List<Movie>> getPopularMovies(){
 
         return ResponseEntity.ok(recommendationService.getPopularMovies());

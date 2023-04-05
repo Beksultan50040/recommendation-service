@@ -9,7 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Recommendation API", description = "Recommendatio Information"))
+@OpenAPIDefinition(info = @Info(title = "Recommendation API", description = "Recommendation Information"))
 @SecurityScheme(name = "recommendation-service", scheme = "basic", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
 public class RecommendationsApplication {
 
