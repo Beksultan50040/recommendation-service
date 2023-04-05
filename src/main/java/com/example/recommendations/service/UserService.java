@@ -60,7 +60,7 @@ public class UserService {
         }
 
         UserCredentials userCredentials = userMapper.signUpToUser(userDto);
-        userCredentials.setPassword(Arrays.toString(userDto.getPassword()));
+        userCredentials.setPassword(Arrays.toString(userDto.getPassword().toCharArray()));
         userCredentials.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
 
         UserCredentials savedUserCredentials = userRepository.save(userCredentials);

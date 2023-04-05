@@ -35,6 +35,6 @@ public class SignUpDto {
     private String roles;
 
     @NotEmpty
-    private char[] password;
+    private String password;
 
 }

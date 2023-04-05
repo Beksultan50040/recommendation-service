@@ -33,7 +33,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(consumes = { "application/json", "multipart/form-data" },
             value = "/save")
-    @Operation(summary = "My endpoint", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "ADMIN Endpoint", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<Movie> saveMovie(@RequestBody MovieDto movieDto) throws IOException {
 
         return ResponseEntity.ok(movieService.saveMovie(movieDto));
@@ -42,7 +42,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(consumes = "multipart/form-data",
             value = "/image/{id}")
-    @Operation(summary = "My endpoint", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "ADMIN Endpoint", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<Movie> uploadImage(@PathVariable String id, @RequestParam MultipartFile file) {
 
         return ResponseEntity.ok(movieService.uploadFile(id, file));

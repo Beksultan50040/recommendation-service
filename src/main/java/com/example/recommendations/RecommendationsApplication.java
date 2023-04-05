@@ -9,8 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Auction API", description = "Auction Information"))
-@SecurityScheme(name = "auction", scheme = "basic", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
+@OpenAPIDefinition(info = @Info(title = "Recommendation API", description = "Recommendatio Information"))
+@SecurityScheme(name = "recommendation-service", scheme = "basic", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
 public class RecommendationsApplication {
 
     public static void main(String[] args) {
